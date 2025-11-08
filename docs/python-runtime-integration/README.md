@@ -193,6 +193,108 @@ Security and autonomy design for Python runtime integration:
 
 **Strategic Insight:** Memgraph as "The Intelligence Layer for AI Agents" - not just storage, but active learning system that makes all agents smarter over time.
 
+### [06-graph-algorithms-for-agents.md](./06-graph-algorithms-for-agents.md) 💎
+**Graph Algorithms for AI Agent Intelligence**
+
+**KEY INSIGHT:** Traditional graph algorithms (PageRank, community detection, shortest path, etc.) that Memgraph already has (via MAGE) become powerful **agent intelligence features** when applied to AI agent workflows.
+
+**The Transformation:**
+
+| Traditional Use | → | Agent Intelligence Use | Claude Code Example |
+|----------------|---|----------------------|-------------------|
+| PageRank for web pages | → | **Tool Importance Ranking** | Which tools are most critical? (`read` ranks highest - used in 95% of tasks) |
+| Community Detection | → | **Tool Collaboration Clusters** | "Investigation tools": grep→read→edit→bash always used together |
+| Shortest Path | → | **Optimal Action Sequences** | Fastest way to fix bug: glob→read→edit→bash (200ms vs 500ms) |
+| Collaborative Filtering | → | **Tool Recommendations** | "Users fixing NullPointer bugs also used: bash (run tests first!)" |
+| Link Prediction | → | **Predict Next Action** | After bug fix, 85% likely user runs tests next |
+| Node2Vec Embeddings | → | **Semantic Tool Search** | "Tool like grep but for files?" → glob (85% similar) |
+| Temporal Analysis | → | **Performance Degradation** | "Bug fixes 52% slower this week - redundant file reads detected" |
+
+**Specific Claude Code Examples:**
+
+**1. Tool Importance (PageRank)**
+```cypher
+CALL pagerank.get() YIELD node, rank
+WHERE node:Tool
+RETURN node.name, rank ORDER BY rank DESC LIMIT 5
+// Results: read(0.245), edit(0.189), bash(0.156), grep(0.142), write(0.098)
+```
+**Value:** Focus optimization on high-rank tools, better error messages, predictive loading
+
+**2. Tool Communities (Louvain)**
+```cypher
+CALL community_detection.get() YIELD node, community_id
+WHERE node:Tool
+RETURN community_id, collect(node.name)
+// Results:
+//   Community 1: [grep, read, edit, bash] ← Investigation & Fix
+//   Community 2: [write, git, bash] ← New Development
+```
+**Value:** Task-specific tool suggestions, workflow templates, anomaly detection
+
+**3. Optimal Paths (Dijkstra)**
+```cypher
+MATCH path = (start:State)-[:ACTION*]->(goal:State)
+WITH path, reduce(cost=0, r in relationships(path) | cost+r.avg_time_ms)
+ORDER BY cost LIMIT 1
+RETURN [rel in relationships(path) | rel.tool] as optimal_sequence
+// Result: ["glob", "read", "edit", "bash"] ← Fastest path to fix bug
+```
+**Value:** Predictive action sequences, A/B test approaches, identify bottlenecks
+
+**4. Tool Recommendations (Collaborative Filtering)**
+```cypher
+MATCH (current_task)-[:SIMILAR_TO]->(similar_task)-[:SOLVED_WITH]->(tool)
+WHERE NOT (current_task)-[:ALREADY_TRIED]->(tool)
+RETURN tool.name, avg(similar_task.success_rate), count(*) as frequency
+ORDER BY avg(similar_task.success_rate) DESC
+// 💡 "Based on 15 similar bugs: bash (92% success) - run tests before editing"
+```
+**Value:** Proactive suggestions, avoid pitfalls, discover new tools
+
+**5. Next Action Prediction (Link Prediction)**
+```cypher
+MATCH (completed:Task)-[:FOLLOWED_BY*1..2]->(likely_next:Task)
+WITH likely_next, count(*) as frequency
+RETURN likely_next.type, frequency ORDER BY frequency DESC
+// 🔮 "After bug_fix: run_tests (85%), commit (12%), push (3%)"
+```
+**Value:** Workflow completion prompts, prevent mistakes (committing without tests)
+
+**6. Semantic Tool Search (Node2Vec)**
+```cypher
+CALL node2vec.get() YIELD node, embedding WHERE node:Tool
+// Then: cosine_similarity(grep.embedding, other.embedding)
+// Results: ripgrep(0.92), ack(0.88), find(0.75)
+```
+**Value:** Natural language tool discovery, substitution recommendations, capability gap analysis
+
+**7. Performance Trends (Temporal)**
+```cypher
+MATCH (task:Task)-[:EXECUTED_AT]->(exec:Execution)
+WITH exec.timestamp.week, avg(exec.duration_ms) as avg_duration
+WHERE avg_duration > overall_avg + 2*stddev
+RETURN week, avg_duration, "Performance degradation!" as alert
+```
+**Value:** Regression alerts, seasonal patterns, workflow evolution tracking
+
+**Competitive Advantage:**
+
+| Algorithm | Neon (Postgres) | Databricks | Memgraph |
+|-----------|----------------|------------|----------|
+| PageRank | ❌ Need extension + slow | ❌ Batch only | ✅ **Native (MAGE)** |
+| Community Detection | ❌ Complex SQL | ❌ GraphFrames (slow) | ✅ **Louvain built-in** |
+| Shortest Path | ❌ Recursive CTEs | ⚠️ Possible but slow | ✅ **Native** |
+| Link Prediction | ❌ Need ML pipeline | ⚠️ MLlib | ✅ **Built-in** |
+| Real-time | ✅ Good | ❌ Batch | ✅ **< 10ms** |
+
+**Strategic Insight:** Memgraph's **existing graph algorithms** (already in MAGE) become **agent intelligence features** with minimal additional code. Competitors would need to build from scratch or export to NetworkX (slow, expensive).
+
+**Business Value:**
+- Users: Faster task completion, higher success rate, personalized experience
+- Product: Competitive differentiation, data-driven development, network effects
+- Market: "Every algorithm makes your agents smarter" - unique positioning
+
 ## Summary Comparison
 
 | Aspect | Current MAGE | Enhanced MAGE | Hybrid Model | Agent-First Microservices |
