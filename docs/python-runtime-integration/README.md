@@ -387,6 +387,113 @@ RETURN week, avg_duration, "Performance degradation!" as alert
 - Week 3: Build agent intelligence layer
 - Week 4: Demo + measure performance
 
+### [09-horizontal-learning-network-effects.md](./09-horizontal-learning-network-effects.md) 🚀
+**Horizontal Learning & Network Effects: Platform Intelligence at Scale**
+
+**PURPOSE:** Automated, intelligent rollout of learned insights across customers creating exponential network effects.
+
+**The Core Insight:**
+When one customer's agent learns something valuable (e.g., "use TrueLayer instead of Plaid for UK banking"), that insight can be **safely propagated** to similar customers using:
+- **Link Prediction**: Identify which customers would benefit
+- **Community Detection**: Find customer clusters with shared contexts
+- **Collaborative Filtering**: Rank customers by predicted success
+- **Bayesian A/B Testing**: Controlled rollout with statistical rigor (canary → pilot → gradual → full)
+
+**Built-In Platform Intelligence Agents:**
+
+1. **LFTPAgent** (Individual Learning) - Covered in doc 05
+2. **HorizontalLearningAgent** (Cross-Customer Intelligence)
+   - Propagates verified insights across customer base
+   - Creates staged rollout plans (canary 1% → pilot 10% → gradual 50% → full 100%)
+   - Bayesian A/B testing at each stage
+   - Auto-halt if negative impact detected
+
+3. **PerformanceOptimizationAgent** (System-Wide Efficiency)
+   - Learns from slow queries across all customers
+   - Recommends indices/schema changes
+   - Predicts performance degradation
+
+4. **SecurityAnomalyAgent** (Threat Intelligence Sharing)
+   - Detects anomalous access patterns
+   - Shares threat signatures (privacy-preserving)
+   - Auto-blocks known bad actors across platform
+
+5. **CostOptimizationAgent** (FinOps Intelligence)
+   - Finds customers with similar workloads but different costs
+   - Learns cheaper configuration patterns
+   - Recommends optimizations
+
+6. **QualityAssuranceAgent** (Error Pattern Learning)
+   - Detects recurring errors across customers
+   - Recommends preventive fixes BEFORE errors occur
+   - Shares test coverage insights
+
+**Concrete Rollout Examples:**
+
+**Financial (Revolut) - Fraud Pattern Sharing:**
+- Customer A detects "micro-transaction testing" fraud pattern
+- HorizontalLearningAgent finds 47 similar fintech customers
+- Rollout stages:
+  - Day 1-2: Canary (1%, 2 customers) → 12 frauds caught, 2 false positives
+  - Day 2-5: Pilot (10%, 5 customers) → 96% confidence, proceed
+  - Day 5-12: Gradual (50%, 23 customers) → 42% error reduction
+  - Day 12+: Full (100%, 47 customers) → Platform standard
+- **Impact:** £2.4M fraud prevented across platform in 12 days
+
+**Legal (Real Estate) - Timeline Optimization:**
+- Customer discovers parallel mortgage + title search saves 7 days
+- Community detection finds "UK fintechs" cluster (23 customers)
+- PageRank identifies influential agents for canary
+- Bayesian analysis: 96% probability of 6.6 day improvement
+- **Impact:** 240K transactions/year × 6.6 days = £554M annual savings (platform-wide)
+
+**Healthcare - Sepsis Detection Pattern:**
+- Hospital A detects novel sepsis pattern (3.2 hours earlier detection)
+- Conservative healthcare rollout:
+  - Stage 1: Expert clinical review (required)
+  - Stage 2: Shadow mode canary (3 hospitals, 30 days)
+  - Stage 3: Active pilot (60 days with strict oversight)
+  - Stage 4: Gradual expansion (25% of hospitals)
+  - Stage 5: Platform standard (6 months validation)
+- **Impact:** 1,100 lives saved annually across 487 hospitals
+
+**The Killer Demo: "Network Effects in Action"** (8 minutes)
+1. Customer A learns insight (30 sec)
+2. Platform intelligence activates - link prediction finds 47 similar customers (90 sec)
+3. Controlled rollout visualization - canary → pilot → gradual → full (2 min)
+4. 3D graph visualization showing propagation (90 sec)
+5. Network effect compounding - Month 1: $1.2M value → Month 12: $54.8M value (90 sec)
+6. Competitive moat analysis (30 sec)
+7. The pitch: "Winner-takes-all market" (30 sec)
+
+**The Network Effect Math:**
+```
+Value = Customers × Insights/Customer × Propagation × Value/Insight
+
+Month 1:  100 customers × 50 insights × 10 reach = $50K value
+Month 12: 1,000 customers × 2,000 insights × 100 reach = $20M value (400x!)
+```
+
+**Privacy Model:**
+- **Isolated Tier** ($500/mo): No sharing, premium pricing
+- **Community Tier** ($350/mo): Share within industry/region, standard pricing
+- **Platform Tier** ($250/mo): Global intelligence, discount for contribution
+- **Research Tier** ($150/mo): Anonymized research use, maximum discount
+
+**Why This Creates Insurmountable Moat:**
+1. More customers → More insights learned
+2. More insights → Higher value per customer
+3. Higher value → Easier customer acquisition
+4. More customers → Even more insights (flywheel)
+
+**Competitive Position:**
+- Neon/Postgres: ❌ No graph algorithms for similarity/communities
+- Databricks: ❌ Batch-only, can't do real-time rollout
+- Neo4j: ⚠️ Has algorithms but not agent-optimized (no hooks, flights, A/B testing)
+- Memgraph: ✅ Complete platform (MAGE algorithms + agent optimization + Bayesian testing)
+
+**Strategic Insight:** First mover advantage compounds exponentially. Once you're #1 in platform intelligence, competitors can never catch up.
+
 ## Summary Comparison
 
 | Aspect | Current MAGE | Enhanced MAGE | Hybrid Model | Agent-First Microservices |
