@@ -140,6 +140,59 @@ Security and autonomy design for Python runtime integration:
 
 **Market Position:** "The Graph Database for AI Agents"
 
+### [05-agent-learning-patterns.md](./05-agent-learning-patterns.md) 🔥
+**Agent Learning Patterns: Contextual Intelligence via Graph**
+
+**DEEP DIVE:** Detailed analysis of the Learn From The Past Agent (LFTPAgent) pattern - a concrete example of how background intelligence agents can enhance primary agents:
+
+**The Pattern:**
+- **Observe:** User repeatedly corrects agent ("use `uv` not `python3`")
+- **Detect:** Pattern recognition via graph queries
+- **Hypothesize:** Form hypothesis with confidence score
+- **Inject:** Provide recommendation via hooks at the right moment
+- **Refine:** Update confidence based on outcomes (accepted? worked?)
+
+**Real Example:** Claude Code Integration
+```python
+# User keeps saying "use uv instead of python3"
+# After 2-3 times, LFTPAgent:
+# 1. Detects pattern in interaction graph
+# 2. Creates hypothesis (python → uv, confidence 0.75)
+# 3. Injects recommendation when python tool about to be called
+# 4. Observes outcome, refines confidence to 0.85
+# → Agent gets smarter "for free"
+```
+
+**Complete Implementation:**
+- Full data model (interaction graph, hypothesis graph)
+- Python implementation with background learning loops
+- Hook system for recommendation injection
+- Bayesian confidence updates
+- Pattern generalization and cleanup
+- Claude Code integration example
+
+**Broader Applications:**
+- Performance optimization (detect slow queries, suggest indices)
+- Security anomaly detection (unusual access patterns)
+- Cost optimization (suggest cheaper alternatives)
+- Code quality (detect error-prone patterns)
+- Workflow automation (detect repetitive sequences)
+
+**Why This Strongly Favors Agent-First Microservices:**
+- LFTPAgent runs as independent background service
+- Doesn't block primary agent execution
+- Scales independently
+- Crash isolation (learning failure doesn't crash main agent)
+
+**Architectural Requirements Revealed:**
+- Real-time graph queries (< 10ms for hook injection)
+- Pattern matching over temporal sequences (graphs win vs SQL)
+- Hypothesis evolution and versioning
+- Context-aware retrieval with conditions/exceptions
+- Bayesian confidence updates
+
+**Strategic Insight:** Memgraph as "The Intelligence Layer for AI Agents" - not just storage, but active learning system that makes all agents smarter over time.
+
 ## Summary Comparison
 
 | Aspect | Current MAGE | Enhanced MAGE | Hybrid Model | Agent-First Microservices |
