@@ -96,18 +96,67 @@ Security and autonomy design for Python runtime integration:
 - Comprehensive audit logging
 - Real-time monitoring
 
+### [04-agent-first-architecture.md](./04-agent-first-architecture.md) ⭐
+**Agent-First Architecture: Memgraph for AI Agents**
+
+**NEW:** Rethinking Memgraph optimized for AI agents as primary customers (inspired by Neon's agent-first success):
+
+**Agent-First Design Principles:**
+- **Ephemeral-First**: Fast provisioning, auto-cleanup, burst scaling
+- **Collaborative-First**: Multi-agent coordination via shared graphs
+- **Self-Describing**: Agents discover and extend schemas at runtime
+- **Observable-First**: Full reasoning transparency in graph
+- **API-First for Agents**: Natural language queries, agent primitives
+
+**Why Graphs for Agents:**
+- Agent mental models are naturally graphs
+- Task decomposition, tool calling, knowledge representation
+- Multi-agent coordination and debate
+- Reasoning trace as graph structure
+
+**Differentiated Use Cases:**
+- **vs. Neon/Postgres:** Native graph for agent reasoning, no complex JOINs
+- **vs. Databricks:** Real-time collaboration, not batch analytics
+- **Unique to Memgraph:**
+  - Agent swarm coordination hub
+  - Persistent agent memory & learning
+  - Multi-agent debate & consensus
+  - Hierarchical agent organizations
+  - Agent tool/capability discovery graph
+
+**Ecosystem Partnerships:**
+- **Tier 1:** LangGraph, CrewAI, AutoGen, Semantic Kernel
+- **Tier 2:** OpenAI, Anthropic, Google (LLM providers)
+- **Tier 3:** Temporal, Prefect (orchestration)
+- **Tier 4:** LangSmith, Helicone, Arize (observability)
+- **Tier 5:** Cursor, Replit, GitHub Copilot (dev tools)
+
+**Architectural Recommendation:**
+- **Agent-Optimized Microservices** (favored for agent use cases)
+- Fast provisioning (< 1 second)
+- Ephemeral workspaces with TTL
+- Shared knowledge layer for multi-agent
+- Natural language + structured APIs
+
+**Market Position:** "The Graph Database for AI Agents"
+
 ## Summary Comparison
 
-| Aspect | Current MAGE | Enhanced MAGE | Hybrid Model |
-|--------|-------------|---------------|--------------|
-| **Python Integration** | Procedures only | + REPL, Triggers, Hooks | + Remote execution |
-| **Sandboxing** | None | Resource limits | Process isolation |
-| **Performance** | Excellent | Excellent | Good |
-| **Security** | Low | Medium | High |
-| **Complexity** | Low | Medium | Medium-High |
-| **RAG Suitability** | Basic | Very Good | Excellent |
-| **Multi-tenant Safe** | No | Partial | Yes |
-| **Implementation Time** | N/A | 3-6 months | 6-12 months |
+| Aspect | Current MAGE | Enhanced MAGE | Hybrid Model | Agent-First Microservices |
+|--------|-------------|---------------|--------------|--------------------------|
+| **Python Integration** | Procedures only | + REPL, Triggers, Hooks | + Remote execution | + Natural language API |
+| **Sandboxing** | None | Resource limits | Process isolation | Full isolation |
+| **Performance** | Excellent | Excellent | Good | Good |
+| **Security** | Low | Medium | High | High |
+| **Complexity** | Low | Medium | Medium-High | High |
+| **RAG Suitability** | Basic | Very Good | Excellent | Excellent |
+| **Multi-tenant Safe** | No | Partial | Yes | Yes |
+| **Multi-Agent Collab** | Poor | Limited | Good | **Excellent** |
+| **Ephemeral Workspaces** | No | No | Partial | **Yes (< 1s)** |
+| **Agent API Friendly** | Medium | Good | Good | **Excellent** |
+| **Scale to Zero** | No | No | Partial | **Yes** |
+| **Implementation Time** | N/A | 3-6 months | 6-12 months | 12-18 months |
+| **Best For** | Extensions | RAG + Humans | Production RAG | **AI Agents** |
 
 ## Key Findings
 
@@ -127,29 +176,56 @@ Security and autonomy design for Python runtime integration:
 
 ### Recommended Path Forward
 
-**Phase 1 (Months 1-3): Enhanced MAGE Foundation**
+**Two Strategic Options:**
+
+#### Option A: Human-First RAG Platform (Safer Bet)
+- **Target:** Developers and data scientists building RAG applications
+- **Architecture:** Enhanced MAGE + Selective Hybrid
+- **Timeline:** 12 months
+- **Risk:** Low (builds on proven architecture)
+
+#### Option B: Agent-First Platform (Higher Risk, Higher Reward) ⭐
+- **Target:** AI agents as primary customers
+- **Architecture:** Agent-Optimized Microservices
+- **Timeline:** 18 months
+- **Risk:** Medium-High (new paradigm)
+- **Differentiation:** "The Graph Database for AI Agents"
+
+**Recommended: Start with Option A, evolve to Option B**
+
+**Phase 1 (Months 1-3): Enhanced MAGE Foundation + Agent API**
 - Implement Python REPL session management
 - Add transaction lifecycle hooks
 - Enhanced trigger system with Python callbacks
-- Resource limiters (CPU, file descriptors)
+- **NEW:** Agent Python SDK with natural language queries
+- **NEW:** Agent primitives (store_thought, delegate_task, etc.)
 
-**Phase 2 (Months 4-6): RAG Platform Core**
+**Phase 2 (Months 4-6): RAG Platform Core + Workspace Provisioning**
 - Python RAG framework (retrieval, generation, orchestration)
 - Ingestion pipeline with graph building
 - LLM and embedding provider integrations
-- Basic observability
+- **NEW:** Ephemeral workspace provisioner with instance pooling
+- **NEW:** Fast provisioning (< 1 second target)
 
-**Phase 3 (Months 7-9): Security & Isolation**
-- Sandbox process manager
-- Seccomp filtering and namespaces
-- Tiered trust model
-- Audit logging
+**Phase 3 (Months 7-9): Security & Multi-Agent Coordination**
+- Sandbox process manager with seccomp filtering
+- Tiered trust model and audit logging
+- **NEW:** Multi-agent coordination primitives
+- **NEW:** Shared workspace support
+- **NEW:** Agent registry and discovery
 
-**Phase 4 (Months 10-12): Agents & Advanced Features**
-- Reactive agent framework
-- Proactive agent runtime
+**Phase 4 (Months 10-12): Agents & Ecosystem Integration**
+- Reactive and proactive agent frameworks
 - Artifact sandboxing
-- Multi-agent coordination
+- **NEW:** LangGraph integration (checkpointer, state persistence)
+- **NEW:** CrewAI / AutoGen integrations
+- **NEW:** LangSmith / Helicone observability
+
+**Phase 5 (Months 13-18): Agent-Native Features**
+- **NEW:** Auto-scaling for agent swarms
+- **NEW:** Cross-workspace knowledge sharing
+- **NEW:** Agent learning from reasoning traces
+- **NEW:** Cost optimization for burst workloads
 
 ## Use Cases Enabled
 
@@ -179,6 +255,30 @@ Security and autonomy design for Python runtime integration:
 - Automatic enrichment from external sources
 - Constraint enforcement and data validation
 
+### 6. **Agent Swarm Coordination** (NEW - Agent-First)
+- 100+ specialized agents working on complex problems
+- Real-time coordination via shared knowledge graph
+- Task dependency graph and dynamic allocation
+- Agent-to-agent communication primitives
+
+### 7. **Multi-Agent Debate & Consensus** (NEW - Agent-First)
+- Agents debate proposals with evidence
+- Voting and consensus mechanisms via graph
+- Argument dependency tracking
+- Transparent decision-making process
+
+### 8. **Persistent Agent Memory** (NEW - Agent-First)
+- Long-term memory across agent sessions
+- Episodic memory (experiences) and semantic memory (knowledge)
+- Pattern learning from past interactions
+- Similar experience retrieval for decision-making
+
+### 9. **Agent Tool Discovery & Composition** (NEW - Agent-First)
+- Dynamic capability registry in graph
+- Automatic tool chain composition
+- Cost and reliability optimization
+- Agent skill matching and delegation
+
 ## Integration Points in Codebase
 
 ### Core Python Integration
@@ -206,8 +306,11 @@ Security and autonomy design for Python runtime integration:
 - Architecture Decision Records: `/home/user/memgraph/ADRs/`
 
 ### External Inspirations
+- **Neon**: Agent-first database design, ephemeral workspaces
 - **Claude Code**: Artifact sandboxing, interactive execution
 - **LangChain/LlamaIndex**: RAG framework patterns
+- **LangGraph**: Multi-agent orchestration and state management
+- **CrewAI**: Multi-agent collaboration patterns
 - **Neo4j**: Python-first developer experience
 - **gVisor**: Userspace kernel for strong isolation
 - **Pyodide**: Python in WebAssembly
