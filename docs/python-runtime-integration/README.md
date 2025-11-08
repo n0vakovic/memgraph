@@ -295,6 +295,98 @@ RETURN week, avg_duration, "Performance degradation!" as alert
 - Product: Competitive differentiation, data-driven development, network effects
 - Market: "Every algorithm makes your agents smarter" - unique positioning
 
+### [07-demo-playbook.md](./07-demo-playbook.md) 🎯
+**The Killer Demo: Memgraph for AI Agents**
+
+**PURPOSE:** Series A fundraising demo strategy optimized for investor engagement and usage growth.
+
+**3 Jaw-Dropping Demos:**
+1. **"Agent That Learns in Real-Time"** (5 min)
+   - Show LFTPAgent learning from 2 corrections
+   - Pattern detected, hypothesis formed, recommendation injected
+   - "This is impossible with Neon/Postgres or Databricks"
+
+2. **"Agent Swarm Intelligence"** (10 min)
+   - 5 specialized agents (architect, backend, frontend, testing, security)
+   - Collaborating on OAuth2 migration via shared knowledge graph
+   - Real-time coordination, task delegation, conflict resolution
+
+3. **"Agent Intelligence Dashboard"** (7 min)
+   - Executive-level analytics using graph algorithms
+   - Tool efficiency, workflow optimization, cost savings
+   - ROI: $243K annual savings from agent intelligence
+
+**Positioning Strategy:**
+- **Play Nice With:** LangGraph, CrewAI, AutoGen (Tier 1), Anthropic/OpenAI (Tier 2), Cursor/Replit (Tier 3)
+- **Compete Against:** Neon (relational), Databricks (batch), Neo4j (not agent-optimized), Vector DBs
+
+**4 ICP Options:**
+1. Agent Infrastructure Companies (Series A target) - $5M-$20M raised
+2. AI-First Enterprises (High ACV) - $500K-$2M budgets
+3. Developer Tools Companies (Product Enhancement) - $5M-$50M ARR
+4. AI Agent Startups (Early Stage) - Need traction fast
+
+**North Star Metric:** 10K Monthly Active Agents by Series A
+
+**Supporting Materials:**
+- Interactive playground (`try.memgraph.com/agents`)
+- Video demo series (90s explainer, 2min technical, 60s episodes)
+- GitHub repository (`memgraph/agent-intelligence-demo`)
+- Conference talk outline
+
+**Series A Pitch:**
+- Market: $150B Agent Economy TAM
+- Traction: $50K→$2M MRR over 24 months
+- Metrics: 40% MoM growth, 72% retention at month 6, 48x LTV/CAC
+- Ask: $5M for scale
+
+### [08-domain-specific-examples.md](./08-domain-specific-examples.md) 💼
+**Domain-Specific Agent Intelligence: Test-Proof Value Propositions**
+
+**PURPOSE:** Concrete, measurable examples for Financial, Legal, and Healthcare verticals with real ROI calculations.
+
+**Financial: Revolut Customer Support**
+- **Problem:** 40M customers, generic responses, no context sharing, fraud detection gaps
+- **Solution:** Agent intelligence with customer preference learning, context awareness, fraud pattern detection
+- **Use Cases:**
+  1. "The Frequent Flyer" - Detect travel patterns, proactive Metal upgrade (£779K/year upsell)
+  2. "The Business Customer" - Context switching between personal/business accounts (no repeated questions)
+  3. "Fraud Prevention" - Catch testing patterns (small transactions before large fraud) in < 10ms
+- **ROI:** 274x ($137M value / $500K cost)
+- **Killer Metric:** Reduce escalations by 30% = £32.4M/year savings
+
+**Legal: Real Estate Transaction Agents**
+- **Problem:** 10-20 parties, 200+ documents, 45-day average close, 8-12% deal fallthrough
+- **Solution:** Transaction graph with dependency tracking, blocker detection, predictive issue alerts
+- **Use Cases:**
+  1. "Where Are We?" - Instant comprehensive status (vs 4 hours manual tracking)
+  2. "Critical Path Analysis" - Save 7 days per transaction through parallel task optimization
+  3. "Learning from History" - Predict issues (75% accuracy) before they occur
+- **ROI:** 40x ($12M platform revenue / $300K cost)
+- **Killer Metric:** 7 days faster closing = £1,050 buyer savings + £1,400 seller savings
+
+**Healthcare: Clinical Decision Support**
+- **Problem:** ED physicians see 15-25 patients/shift, 5-15% diagnostic errors, 90% alert override rate
+- **Solution:** Clinical knowledge graph with intelligent differential diagnosis, smart drug interaction alerts, early sepsis detection
+- **Use Cases:**
+  1. "Chest Pain Differential" - Bayesian probability ranking, caught PE risk from recent surgery
+  2. "Drug Interaction Prevention" - Patient-specific risk (only 1-2% false positives vs 50%)
+  3. "Sepsis Early Detection" - Pattern recognition 3 hours earlier than rule-based systems
+- **ROI:** 87x ($35M savings / $400K cost)
+- **Killer Metric:** 13 lives saved per year + £22.5M diagnostic error reduction
+
+**Why Memgraph Wins:**
+1. **Real-Time:** < 10ms pattern detection (fraud, sepsis, status queries)
+2. **Complex Relationships:** 4+ hop queries native (vs expensive SQL joins)
+3. **Learning from History:** Similarity queries and pattern matching built-in
+4. **Explainable AI:** Graph structure IS the explanation (regulatory compliance)
+
+**30-Day POC Plan:**
+- Week 1: Data modeling + schema design
+- Week 2: Load sample data + basic queries
+- Week 3: Build agent intelligence layer
+- Week 4: Demo + measure performance
+
 ## Summary Comparison
 
 | Aspect | Current MAGE | Enhanced MAGE | Hybrid Model | Agent-First Microservices |
