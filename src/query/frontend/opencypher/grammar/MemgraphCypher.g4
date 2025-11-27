@@ -103,6 +103,7 @@ memgraphCypherKeyword : cypherKeyword
                       | INSTANCES
                       | INTEGER
                       | ISOLATION
+                      | JSONL
                       | KAFKA
                       | LABELS
                       | LAG
@@ -193,6 +194,7 @@ memgraphCypherKeyword : cypherKeyword
                       | TRIGGER
                       | TRIGGERS
                       | TTL
+                      | TYPE
                       | TYPES
                       | UNCOMMITTED
                       | UNLOCK
@@ -342,6 +344,7 @@ clause : cypherMatch
        | foreach
        | callSubquery
        | loadParquet
+       | loadJsonl
        ;
 
 updateClause : set
@@ -406,9 +409,13 @@ loadCsv : LOAD CSV FROM csvFile ( WITH | NO ) HEADER
 
 loadParquet : LOAD PARQUET FROM parquetFile ( WITH CONFIG configsMap=configMap ) ? AS rowVar ;
 
+loadJsonl : LOAD JSONL FROM jsonlFile AS rowVar ;
+
 csvFile : literal | parameter ;
 
 parquetFile : literal | parameter ;
+
+jsonlFile : literal | parameter ;
 
 delimiter : literal ;
 
@@ -513,12 +520,10 @@ entityPrivilege : granularPrivilegeList ON entityTypeSpec ;
 
 entityTypeSpec
     : NODES CONTAINING LABELS labelEntities=labelEntitiesList matchingClause?
-    | EDGES CONTAINING TYPES edgeTypes=edgeTypeEntitiesList
+    | EDGES OF_TOKEN TYPE edgeType=edgeTypeEntity
     ;
 
 labelEntitiesList : ASTERISK | listOfColonSymbolicNames ;
-
-edgeTypeEntitiesList : ASTERISK | listOfColonSymbolicNames ;
 
 edgeTypeEntity : ASTERISK | colonSymbolicName ;
 

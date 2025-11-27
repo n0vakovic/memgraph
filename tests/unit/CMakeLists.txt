@@ -3,8 +3,6 @@ set(test_prefix memgraph__unit__)
 find_package(fmt REQUIRED)
 find_package(Threads REQUIRED)
 find_package(antlr4-runtime REQUIRED)
-find_package(antlr4 REQUIRED)
-
 
 include_directories(${antlr4-runtime_INCLUDE_DIR})
 
@@ -104,8 +102,8 @@ add_unit_test(query_expression_evaluator
     LINK_TARGETS mg-query
 )
 
-add_unit_test(query_inlist_cache
-    SOURCES query_inlist_cache.cpp
+add_unit_test(query_cache
+    SOURCES query_cache.cpp
     LINK_TARGETS mg-query
 )
 
@@ -492,6 +490,11 @@ add_unit_test(lru_cache
 add_unit_test(utils_static_vector
     SOURCES utils_static_vector.cpp
     LINK_TARGETS mg::utils
+)
+
+add_unit_test(utils_stack
+    SOURCES utils_stack.cpp
+    LINK_TARGETS mg-utils
 )
 
 add_unit_test(exponential_backoff

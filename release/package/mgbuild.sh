@@ -562,7 +562,7 @@ build_memgraph () {
   echo "Using profile template: $PROFILE_TEMPLATE"
 
   CMD_START="$CMD_START && $EXPORT_MG_TOOLCHAIN && $EXPORT_BUILD_TYPE"
-  docker exec -u mg "$build_container" bash -c "$CMD_START && conan install . --build=missing -pr $PROFILE_TEMPLATE -s build_type=$build_type"
+  docker exec -u mg "$build_container" bash -c "$CMD_START && conan install . --build=missing -pr:h $PROFILE_TEMPLATE -pr:b ./memgraph_build_profile -s build_type=$build_type"
   CMD_START="$CMD_START && source build/generators/conanbuild.sh && $ACTIVATE_CARGO"
 
   # Determine preset name based on build type (Conan generates this automatically)
@@ -696,6 +696,7 @@ package_docker() {
   fi
   local package_dir="$PROJECT_ROOT/build/output/$os"
   local docker_host_folder="$PROJECT_ROOT/build/output/docker/${arch}/${toolchain_version}"
+  local generate_sbom=false
   while [[ $# -gt 0 ]]; do
     case "$1" in
       --dest-dir)
@@ -704,6 +705,10 @@ package_docker() {
       ;;
       --src-dir)
         package_dir="$PROJECT_ROOT/$2"
+        shift 2
+      ;;
+      --generate-sbom)
+        generate_sbom=$2
         shift 2
       ;;
       *)
@@ -728,10 +733,10 @@ package_docker() {
 
   if [[ "$build_type" == "Release" ]]; then
     echo "Package release"
-    ./package_docker --latest --package-path "$package_dir/$last_package_name" --toolchain $toolchain_version --arch "${arch}64" --custom-mirror "$mirror"
+    ./package_docker --latest --package-path "$package_dir/$last_package_name" --toolchain $toolchain_version --arch "${arch}64" --custom-mirror "$mirror" --generate-sbom $generate_sbom
   else
     echo "Package other"
-    ./package_docker --package-path "$package_dir/$last_package_name" --toolchain $toolchain_version --arch "${arch}64" --src-path "$PROJECT_ROOT/src" --custom-mirror "$mirror"
+    ./package_docker --package-path "$package_dir/$last_package_name" --toolchain $toolchain_version --arch "${arch}64" --src-path "$PROJECT_ROOT/src" --custom-mirror "$mirror" --generate-sbom $generate_sbom
   fi
   # shellcheck disable=SC2012
   local docker_image_name=$(cd "$docker_build_folder" && ls -t memgraph* | head -1)
@@ -829,6 +834,13 @@ copy_memgraph() {
           exit 1
         fi
         use_make_install=true
+        shift 1
+      ;;
+      --sbom)
+        artifact="sbom"
+        artifact_name="memgraph-sbom.cdx.json"
+        container_artifact_path="$MGBUILD_BUILD_DIR/generators/sbom/$artifact_name"
+        host_dir="$PROJECT_BUILD_DIR/generators/sbom"
         shift 1
       ;;
       *)
@@ -1304,35 +1316,37 @@ case $command in
         # set local mirror for Ubuntu
         if [[ "$os" =~ ^"ubuntu".* && "$arch" == "amd" ]]; then
           if [[ "$os" == "ubuntu-22.04" ]]; then
-            mirror="$(${PROJECT_ROOT}/tools/test-mirrors.sh 'jammy')"
-            # set custom mirror within build container
-            docker exec -i -u root \
-              -e CUSTOM_MIRROR=$mirror \
-              $build_container \
-            bash -c '
-              if [ -n "$CUSTOM_MIRROR" ]; then
-                sed -E -i \
-                  -e "s#https?://[^ ]*archive\.ubuntu\.com/ubuntu/#${CUSTOM_MIRROR}/#g" \
-                  -e "s#https?://[^ ]*security\.ubuntu\.com/ubuntu/#${CUSTOM_MIRROR}/#g" \
-                  /etc/apt/sources.list
-                apt-get update -qq
-              fi
-            '
+            if mirror="$(${PROJECT_ROOT}/tools/test-mirrors.sh 'jammy')"; then
+              # set custom mirror within build container
+              docker exec -i -u root \
+                -e CUSTOM_MIRROR=$mirror \
+                $build_container \
+              bash -c '
+                if [ -n "$CUSTOM_MIRROR" ]; then
+                  sed -E -i \
+                    -e "s#https?://[^ ]*archive\.ubuntu\.com/ubuntu/#${CUSTOM_MIRROR}/#g" \
+                    -e "s#https?://[^ ]*security\.ubuntu\.com/ubuntu/#${CUSTOM_MIRROR}/#g" \
+                    /etc/apt/sources.list
+                  apt-get update -qq
+                fi
+              '
+            fi
           else
-            mirror="$(${PROJECT_ROOT}/tools/test-mirrors.sh)"
-            # set custom mirror within build container
-            docker exec -i -u root \
-              -e CUSTOM_MIRROR=$mirror \
-              $build_container \
-            bash -c '
-              if [ -n "$CUSTOM_MIRROR" ]; then
-                sed -E -i \
-                  -e "/^URIs:/ s#https?://[^ ]*archive\.ubuntu\.com#${CUSTOM_MIRROR}#g" \
-                  -e "/^URIs:/ s#https?://security\.ubuntu\.com#${CUSTOM_MIRROR}#g" \
-                  /etc/apt/sources.list.d/ubuntu.sources
-                apt-get update -qq
-              fi
-            '
+            if mirror="$(${PROJECT_ROOT}/tools/test-mirrors.sh)"; then
+              # set custom mirror within build container
+              docker exec -i -u root \
+                -e CUSTOM_MIRROR=$mirror \
+                $build_container \
+              bash -c '
+                if [ -n "$CUSTOM_MIRROR" ]; then
+                  sed -E -i \
+                    -e "/^URIs:/ s#https?://[^ ]*archive\.ubuntu\.com#${CUSTOM_MIRROR}#g" \
+                    -e "/^URIs:/ s#https?://security\.ubuntu\.com#${CUSTOM_MIRROR}#g" \
+                    /etc/apt/sources.list.d/ubuntu.sources
+                  apt-get update -qq
+                fi
+              '
+            fi
           fi
         fi
       fi
